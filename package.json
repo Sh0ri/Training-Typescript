@@ -1,0 +1,24 @@
+{
+  "name": "training-typescript",
+  "version": "1.0.0",
+  "description": "training repository for learning typescript",
+  "main": "greeter.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sh0ri/Training-Typescript.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sh0ri/Training-Typescript/issues"
+  },
+  "homepage": "https://github.com/Sh0ri/Training-Typescript#readme",
+  "dependencies": {
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.7.5",
+    "express": "^4.17.1"
+  }
+}
