@@ -1,3 +1,4 @@
 node_modules/
 greeter.js
 greeter.ts
+dist/

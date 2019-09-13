@@ -1,7 +1,7 @@
-import * as express from 'express';
+import express from 'express';
 
 class App {
-  public express
+  public express:any
 
   constructor () {
     this.express = express()
@@ -10,7 +10,7 @@ class App {
 
   private mountRoutes (): void {
     const router = express.Router()
-    router.get('/', (req, res) => {
+    router.get('/', (_req, res) => {
       res.json({
         message: 'Hello World!'
       })
