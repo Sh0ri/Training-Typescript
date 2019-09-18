@@ -35,29 +35,69 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-//import cheerio from 'cheerio';
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var cheerio_1 = __importDefault(require("cheerio"));
 //import pSettle from 'p-settle';
-//import request from 'request';
+var request = __importStar(require("request-promise"));
 //test consts
-// const headers = { 
-//     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
-//     'Content-Type' : 'application/x-www-form-urlencoded' 
-// };
-var test_url = "https://u.gg/lol/profile/euw1/sh0ri/overview";
+var headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
+    'Content-Type': 'application/x-www-form-urlencoded'
+};
+//const test_url:string = "https://u.gg/lol/profile/euw1/sh0ri/overview";
+var test_url = "https://old.reddit.com/r/leagueoflegends/";
 function test_function(_url) {
     return __awaiter(this, void 0, void 0, function () {
+        var result, err_1;
         return __generator(this, function (_a) {
-            try {
-                console.log("HELLO");
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, scrape_profile(test_url)];
+                case 1:
+                    result = _a.sent();
+                    console.log("result" + result);
+                    return [3 /*break*/, 3];
+                case 2:
+                    err_1 = _a.sent();
+                    console.log('Error : ', err_1.message);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
             }
-            catch (err) {
-                console.log('Error : ', err.message);
-            }
-            return [2 /*return*/];
         });
     });
 }
-console.log(test_function(test_url));
+function scrape_profile(url) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/, new Promise(function (resolve, reject) {
+                    request.get({ url: url, headers: headers }, function (error, response, html) {
+                        if (!error) {
+                            console.log("response : " + response);
+                            var $ = cheerio_1.default.load(html);
+                            var pseudo = $('#thing_t3_d5t3uf > div.entry.unvoted > div.top-matter > p.title > a').text();
+                            console.log(pseudo);
+                            resolve(pseudo);
+                        }
+                        else
+                            reject(error.toString());
+                    });
+                })];
+        });
+    });
+}
+//console.log(test_function(test_url));
+test_function(test_url);
 module.exports = {
     test_function: test_function,
 };
