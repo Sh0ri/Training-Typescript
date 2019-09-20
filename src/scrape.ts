@@ -14,15 +14,22 @@ async function scrape_profile(pseudo:string):Promise<string>{
     await page.goto(url1+pseudo+url2);
 
     await page.click("#qcCmpButtons > button:nth-child(2)");
-
+    
     const strong_pseudo:string = await page.evaluate(() => {
         let elem = document.querySelector('#content > div > div > div.summoner-profile_header-container > div > div > div > div > div:nth-child(2) > div:nth-child(1) > div.summoner-name > strong');
         //C'est ici que ça bug
-        if(isElement(elem))
-        {
-            return elem.toString();
+        try{
+            if(isElement(elem))
+            {
+                return elem.toString();
+            }
+            else return "";
         }
-        else return "";
+        catch(error){
+            console.log("the error : " + error)
+            return "";
+        }
+        
     });
 
     return strong_pseudo;
