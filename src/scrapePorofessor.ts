@@ -91,6 +91,8 @@ const getAllCardsInfo = ():IChampionCardsList => {
         return result;
     }
 
+    //A AMELIORER
+    
     const allies = Array.from(document.querySelectorAll("#liveContent > div.site-content.site-content-bg > ul:nth-child(3) > li > div"))
     .map(elem => getInfoFromCard(elem,"blue"))
     .filter((card:IChampionCard|null): card is IChampionCard => card !== null);
