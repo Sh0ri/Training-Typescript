@@ -1,16 +1,13 @@
 'use strict';
 
 //imports
-//import puppeteer from 'puppeteer';
 import { IChampionCard, IChampionCardsList } from './scrapper';
-//import * as tGuards from '../lib-typeGuards';
 
 
 
 const getAllCardsInfo = ():IChampionCardsList => {
     const isNull = (elem: any): elem is null => (null === elem);
     const isElement = (elem: any): elem is Element => (elem instanceof Element);
-    //const isString = (elem: any): elem is String => (elem instanceof String);
 
     const getInfoFromCard = (elem:Element,teamColor:string) :(IChampionCard|null)=> {
         let pseudo:string = "";
@@ -26,7 +23,7 @@ const getAllCardsInfo = ():IChampionCardsList => {
         team = teamColor;
 
         //pseudo
-        const pseudoElement = elem.querySelector("div.cardHeader." + teamColor + " > a");
+        const pseudoElement = elem.querySelector("div.cardHeader.${teamColor} > a"); //previously elem.querySelector("div.cardHeader." + teamColor + " > a");
         if(!isElement(pseudoElement) || isNull(pseudoElement.textContent)) pseudo = "";
         else pseudo = pseudoElement.textContent.replace(/(\r\n|\n|\r)/gm, "").trim();
         console.log("pseudo : " + pseudo);
@@ -94,6 +91,8 @@ const getAllCardsInfo = ():IChampionCardsList => {
         return result;
     }
 
+    //A AMELIORER
+    
     const allies = Array.from(document.querySelectorAll("#liveContent > div.site-content.site-content-bg > ul:nth-child(3) > li > div"))
     .map(elem => getInfoFromCard(elem,"blue"))
     .filter((card:IChampionCard|null): card is IChampionCard => card !== null);
