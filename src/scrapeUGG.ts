@@ -12,9 +12,6 @@ const getRunesForOpponent = (runesDataStr: string): typeGuards.IRune|null => {
     const RUNES_TREE_SELECTOR = "#content > div > div > div.champion-profile-page > div > div._grid-1._grid-columns > div.grid-block.runes > div.grid-block-content > div"
     const PRIMARY_TREE_SELECTOR = " > div:nth-child(1) > div > div"
     const SECONDARY_TREE_SELECTOR = " > div:nth-child(2) > div.flex-center > div"
-    // runes
-    // const getPrimaryTree = () :(typeGuards.IPrimaryRunesTree|void)=> {};
-    // const getSecondaryTree = () :(typeGuards.ISecondaryRunesTree|void)=> {};
 
     const getKeystonesRow = (runesRowElement: Element): (typeGuards.IKeystonesRow) => {
         const runesArray = Array.from(runesRowElement.children).map((elem) => getRune(elem))
@@ -62,42 +59,32 @@ const getRunesForOpponent = (runesDataStr: string): typeGuards.IRune|null => {
         }
         return result
     }
+    const getRunesTree = (mainPerk: typeGuards.IMainPerk, keystonesRow: typeGuards.IKeystonesRow|null, runesRows: typeGuards.IRunesRow[]): (typeGuards.IPrimaryRunesTree | typeGuards.ISecondaryRunesTree) => {
+        const result = !isNull(keystonesRow) ? {mainPerk, keystonesRow, runesRows} : {mainPerk, runesRows}
+        return result
+    }
+    const getTree = (selector: string): (typeGuards.IPrimaryRunesTree | typeGuards.ISecondaryRunesTree | null) => {
+        const TreeElement = document.querySelector(`${RUNES_TREE_SELECTOR}${selector}`)
+        const TreeRowsElement = !isNull(TreeElement) ? Array.from(TreeElement.children) : null
 
-    // TEST HERE
+        const mainPerk = !isNull(TreeRowsElement) ? getMainPerk(TreeRowsElement[0]) : null
+        const keystonesRow = !isNull(TreeRowsElement) ? getKeystonesRow(TreeRowsElement[1]) : null
+        const RunesRow = getRunesRows(TreeRowsElement)
 
-    const primaryTreeElement = document.querySelector(`${RUNES_TREE_SELECTOR}${PRIMARY_TREE_SELECTOR}`)
-    const primaryTreeRowsElement = !isNull(primaryTreeElement) ? Array.from(primaryTreeElement.children) : null
+        return !isNull(mainPerk) ? getRunesTree(mainPerk, keystonesRow, RunesRow) : null
+    }
+    const getRunesRows = (treeRowsElement: (Element[] | null)): typeGuards.IRunesRow[] => {
+        const firstRow = !isNull(treeRowsElement) ? getRunesRow(treeRowsElement[2]) : null
+        const secondRow = !isNull(treeRowsElement) ? getRunesRow(treeRowsElement[3]) : null
+        const thirdRow = !isNull(treeRowsElement) ? getRunesRow(treeRowsElement[4]) : null
+        return [firstRow, secondRow, thirdRow].filter((x): x is typeGuards.IRunesRow => x !== null)
+    }
 
-    // test keystones
-    const keystonesRow = !isNull(primaryTreeRowsElement) ? getKeystonesRow(primaryTreeRowsElement[1]) : null
-    // test runesrow
-    const firstPrimaryRow = !isNull(primaryTreeRowsElement) ? getRunesRow(primaryTreeRowsElement[2]) : null
-    const secondPrimaryRow = !isNull(primaryTreeRowsElement) ? getRunesRow(primaryTreeRowsElement[3]) : null
-    const thirdPrimaryRow = !isNull(primaryTreeRowsElement) ? getRunesRow(primaryTreeRowsElement[4]) : null
+    const primaryTree = getTree(PRIMARY_TREE_SELECTOR)
+    const secondaryTree = getTree(SECONDARY_TREE_SELECTOR)
 
-    console.log(`KEYSTONES : ${JSON.stringify(keystonesRow)}`)
-    console.log(`RUNESROW 1 : ${JSON.stringify(firstPrimaryRow)}`)
-    console.log(`RUNESROW 2 : ${JSON.stringify(secondPrimaryRow)}`)
-    console.log(`RUNESROW 3 : ${JSON.stringify(thirdPrimaryRow)}`)
-
-    // Secondary tree
-    const secondaryTreeElement = document.querySelector(`${RUNES_TREE_SELECTOR}${SECONDARY_TREE_SELECTOR}`)
-    const secondaryTreeRowsElement = !isNull(secondaryTreeElement) ? Array.from(secondaryTreeElement.children) : null
-
-    const firstSecondaryRow = !isNull(secondaryTreeRowsElement) ? getRunesRow(secondaryTreeRowsElement[2]) : null
-    const secondSecondaryRow = !isNull(secondaryTreeRowsElement) ? getRunesRow(secondaryTreeRowsElement[3]) : null
-    const thirdSecondaryRow = !isNull(secondaryTreeRowsElement) ? getRunesRow(secondaryTreeRowsElement[4]) : null
-
-    console.log("SECONDARY TREE")
-    console.log(`RUNESROW 1 : ${JSON.stringify(firstSecondaryRow)}`)
-    console.log(`RUNESROW 2 : ${JSON.stringify(secondSecondaryRow)}`)
-    console.log(`RUNESROW 3 : ${JSON.stringify(thirdSecondaryRow)}`)
-
-    const primaryMainPerk = !isNull(primaryTreeRowsElement) ? getMainPerk(primaryTreeRowsElement[0]) : null
-    const secondaryMainPerk = !isNull(secondaryTreeRowsElement) ? getMainPerk(secondaryTreeRowsElement[0]) : null
-    console.log("MAIN PERK")
-    console.log(`PRIMARY PERK : ${JSON.stringify(primaryMainPerk)}`)
-    console.log(`SECONDARY PERK : ${JSON.stringify(secondaryMainPerk)}`)
+    console.log(`PRIMARY TREE : ${JSON.stringify(primaryTree)}`)
+    console.log(`SECONDARY TREE : ${JSON.stringify(secondaryTree)}`)
     // const runeTest = !isNull(elemTest) ? getRune( elemTest ) : null
     // stats runes
     // const getstatsRunesTree = (selector:string) : (typeGuards.IStatsRunesTree | void) => {};
