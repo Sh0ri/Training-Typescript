@@ -1,13 +1,13 @@
 //porofessor
 export interface IChampionCard {
-    team: string;
-    pseudo: string;
-    championName : string;
-    championWinrate: number;
-    championGamesNb: number;
-    totalWinrate: number;
-    currentGameRole: string;
-    mainRole : string;
+    team: string,
+    pseudo: string,
+    championName : string,
+    championWinrate: number,
+    championGamesNb: number,
+    totalWinrate: number,
+    currentGameRole: string,
+    mainRole : string
 }
 export interface IChampionCardsList extends Array<IChampionCard> { }
 
@@ -29,7 +29,7 @@ export interface IStatsRune {
     imageUrl: string,
     description: string,
     isActive: boolean,
-    id: number,
+    id: number
 }
 
 export interface IKeystonesRow {
@@ -45,21 +45,21 @@ export interface IPrimaryRunesTree {
     treeImage: string, //1
     treeDescription: string, //1
     keyStoneRow: IKeystonesRow, //1
-    runesRows: IRunesRow[], //3
+    runesRows: IRunesRow[] //3
 }
 export interface ISecondaryRunesTree {
     treeImage: string, //1
     treeDescription: string, //1
-    runesRows: IRunesRow[], //3
+    runesRows: IRunesRow[] //3
 }
 export interface IStatsRunesTree {
-    runesRows: IStatsRunesRow[], //3
+    runesRows: IStatsRunesRow[] //3
 }
 
 export interface ITotalRunes {
     primaryRunesTree: IPrimaryRunesTree,
     secondaryRunesTree: ISecondaryRunesTree,
-    statsRunesTree: IStatsRunesTree,
+    statsRunesTree: IStatsRunesTree
 }
 
 //build
@@ -67,7 +67,7 @@ export interface IItem {
     imageUrl: string,
     name: string,
     description: string,
-    id: number,
+    id: number
 }
 export interface IStep {
     itemNumber: number,

@@ -84,12 +84,14 @@ export const getAllCardsInfo = (): IChampionCardsList => {
         return result
     }
 
-    const allies = Array.from(document.querySelectorAll(ALLIES_ROW_SELECTOR))
+    const allies = Array
+    .from(document.querySelectorAll(ALLIES_ROW_SELECTOR))
     .map((elem) => getInfoFromCard(elem, "blue"))
     .filter((card: IChampionCard|null): card is IChampionCard => card !== null)
     console.log("allies : " + allies.length)
 
-    const opponents = Array.from(document.querySelectorAll(OPPONENTS_ROW_SELECTOR))
+    const opponents = Array
+    .from(document.querySelectorAll(OPPONENTS_ROW_SELECTOR))
     .map((elem) => getInfoFromCard(elem, "red"))
     .filter((card: IChampionCard|null): card is IChampionCard => card !== null)
     console.log("opp : " + opponents.length)
