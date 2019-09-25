@@ -42,14 +42,12 @@ export interface IStatsRunesRow {
     runes: IStatsRune[]
 }
 export interface IPrimaryRunesTree {
-    treeImage: string, //1
-    treeDescription: string, //1
+    mainPerk: IMainPerk,
     keyStoneRow: IKeystonesRow, //1
     runesRows: IRunesRow[], //3
 }
 export interface ISecondaryRunesTree {
-    treeImage: string, //1
-    treeDescription: string, //1
+    mainPerk: IMainPerk,
     runesRows: IRunesRow[], //3
 }
 export interface IStatsRunesTree {
@@ -60,6 +58,12 @@ export interface ITotalRunes {
     primaryRunesTree: IPrimaryRunesTree,
     secondaryRunesTree: ISecondaryRunesTree,
     statsRunesTree: IStatsRunesTree,
+}
+export interface IMainPerk {
+    id: number,
+    name: string,
+    imgSrc: string,
+    shortDesc: string,
 }
 
 //build
