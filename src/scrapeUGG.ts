@@ -87,7 +87,26 @@ const getRunesForOpponent = (runesDataStr: string): IRune|null => {
     console.log(`SECONDARY TREE : ${JSON.stringify(secondaryTree)}`)
     // const runeTest = !isNull(elemTest) ? getRune( elemTest ) : null
     // stats runes
-    // const getstatsRunesTree = (selector:string) : (typeGuards.IStatsRunesTree | void) => {};
+    const STATS_RUNES_SELECTOR = " > div:nth-child(2) > div.stat-shards-container"
+    const getStatsRune = (statsRunesElement: Element): (typeGuards.IStatsRune | null) => {
+        // isActive
+        const isActiveElement = statsRunesElement.getAttribute("class")
+        const isActive = !isNull(isActiveElement) ? isActiveElement === "shard shard-active" : false
+        // img
+        const imgSrcElement = statsRunesElement.children[0].getAttribute("src")
+        const imgSrc: string = !isNull(imgSrcElement) ? imgSrcElement : ""
+    }
+    const getstatsRunesRow = (statsRunesRowElement: Element): (typeGuards.IStatsRunesRow | null) => {
+        const runesArray = Array.from(statsRunesRowElement.children).map((elem) => getStatsRune(elem))
+
+        return result
+    }
+    const getstatsRunesTree = (selector: string): (typeGuards.IStatsRunesTree | void) => {
+        // hello
+        const statsRunesTreeElement = document.querySelector(`${RUNES_TREE_SELECTOR}${STATS_RUNES_SELECTOR}`)
+        const statsRunesTreeRowsElement = !isNull(statsRunesTreeElement) ? Array.from(statsRunesTreeElement.children) : null
+        const statsRunesRows = !isNull(statsRunesTreeRowsElement) ? statsRunesTreeRowsElement.map((statsRunesRowElement) => {getstatsRunesRow(statsRunesRowElement)}) : null
+    }
     // const getStatsRunesRow = (selector:string) : (typeGuards.IStatsRunesRow | void) => {};
     return null
 
