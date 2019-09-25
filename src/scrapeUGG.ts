@@ -37,24 +37,8 @@ const getRunesForOpponent = (runesDataStr: string): typeGuards.IRune|null => {
         const id: number = !isNull(idElement) ? +idElement : 0
         const allRunesData: typeGuards.IRune[] = JSON.parse(runesDataStr)
         const runeData = allRunesData.find((r) => r.id === id)
-
-        if (runeData === undefined) { return null }
-        return getRuneFromData(runeData, isActive)
-    }
-    const getRuneFromData = (runeData: (typeGuards.IRune), isActive: boolean): (typeGuards.IRune) => {
-        const result: typeGuards.IRune = {
-            id: runeData.id,
-            name: runeData.name,
-            majorChangePatchVersion: runeData.majorChangePatchVersion,
-            tooltip: runeData.tooltip,
-            shortDesc: runeData.shortDesc,
-            longDesc: runeData.longDesc,
-            iconPath: runeData.iconPath,
-            endOfGameStatDescs: runeData.endOfGameStatDescs,
-            isActive,
-        }
-
-        return result
+        const completeRune = (typeof runeData !== "undefined") ? {...runeData, isActive} : null
+        return completeRune
     }
     const getMainPerk = (mainPerkElement: Element): typeGuards.IMainPerk => {
         // img
