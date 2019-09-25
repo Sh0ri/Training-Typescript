@@ -7,7 +7,7 @@ export interface IChampionCard {
     championGamesNb: number,
     totalWinrate: number,
     currentGameRole: string,
-    mainRole : string
+    mainRole : string,
 }
 export interface IChampionCardsList extends Array<IChampionCard> { }
 
@@ -21,7 +21,7 @@ export interface IRune {
     longDesc: string,
     iconPath: string,
     endOfGameStatDescs: string[],
-    isActive: boolean
+    isActive: boolean,
 }
 
 export interface IStatsRune {
@@ -29,28 +29,28 @@ export interface IStatsRune {
     imageUrl: string,
     description: string,
     isActive: boolean,
-    id: number
+    id: number,
 }
 
 export interface IKeystonesRow {
-    keystones: IRune[]
+    keystones: IRune[],
 }
 export interface IRunesRow {
-    runes: IRune[]
+    runes: IRune[],
 }
 export interface IStatsRunesRow {
-    runes: IStatsRune[]
+    runes: IStatsRune[],
 }
 export interface IPrimaryRunesTree {
     treeImage: string, //1
     treeDescription: string, //1
     keyStoneRow: IKeystonesRow, //1
-    runesRows: IRunesRow[] //3
+    runesRows: IRunesRow[], //3
 }
 export interface ISecondaryRunesTree {
     treeImage: string, //1
     treeDescription: string, //1
-    runesRows: IRunesRow[] //3
+    runesRows: IRunesRow[], //3
 }
 export interface IStatsRunesTree {
     runesRows: IStatsRunesRow[] //3
@@ -59,7 +59,7 @@ export interface IStatsRunesTree {
 export interface ITotalRunes {
     primaryRunesTree: IPrimaryRunesTree,
     secondaryRunesTree: ISecondaryRunesTree,
-    statsRunesTree: IStatsRunesTree
+    statsRunesTree: IStatsRunesTree,
 }
 
 //build
@@ -67,15 +67,15 @@ export interface IItem {
     imageUrl: string,
     name: string,
     description: string,
-    id: number
+    id: number,
 }
 export interface IStep {
     itemNumber: number,
     stepName: string,
     description: string,
     items: IItem[],
-    isCore: boolean
+    isCore: boolean,
 }
 export interface IBuild {
-    steps: IStep[]
+    steps: IStep[],
 }
