@@ -4,7 +4,7 @@
 import {IRune, IStatsRune, IKeystonesRow, IRunesRow, IStatsRunesRow, IPrimaryRunesTree, ISecondaryRunesTree, IStatsRunesTree, ITotalRunes, IMainPerk, IItem, IStep, IBuild} from "./scrapper"
 
 // tslint:disable-next-line: no-any
-const getRunesForOpponent = (runesDataStr: string): IRune|null => {
+const getRunesForOpponent = (runesDataStr: string, statsRunesDataStr: string): typeGuards.IRune|null => {
     // consts
     const isNull = (elem: any): elem is null => (null === elem)
 
@@ -95,17 +95,26 @@ const getRunesForOpponent = (runesDataStr: string): IRune|null => {
         // img
         const imgSrcElement = statsRunesElement.children[0].getAttribute("src")
         const imgSrc: string = !isNull(imgSrcElement) ? imgSrcElement : ""
+        // statsRune
+        const allStatsRunesData: typeGuards.IStatsRune[] = JSON.parse(statsRunesDataStr)
+        const statsRuneData = allStatsRunesData.find((r) => r.imageUrl === imgSrc)
+        const completeRune = (typeof statsRuneData !== "undefined") ? {...statsRuneData, isActive} : null
+        return completeRune
     }
-    const getstatsRunesRow = (statsRunesRowElement: Element): (typeGuards.IStatsRunesRow | null) => {
-        const runesArray = Array.from(statsRunesRowElement.children).map((elem) => getStatsRune(elem))
-
+    const getstatsRunesRow = (statsRunesRowElement: Element): (typeGuards.IStatsRunesRow) => {
+        const statsRunesArray = Array.from(statsRunesRowElement.children).map((elem) => getStatsRune(elem))
+        const statsRunesRowNotNull: typeGuards.IStatsRune[] = statsRunesArray.filter((x): x is typeGuards.IStatsRune => x !== null)
+        const result: typeGuards.IStatsRunesRow = {statsRunes: statsRunesRowNotNull}
         return result
     }
-    const getstatsRunesTree = (selector: string): (typeGuards.IStatsRunesTree | void) => {
+    const getstatsRunesTree = (): (typeGuards.IStatsRunesTree | null) => {
         // hello
         const statsRunesTreeElement = document.querySelector(`${RUNES_TREE_SELECTOR}${STATS_RUNES_SELECTOR}`)
         const statsRunesTreeRowsElement = !isNull(statsRunesTreeElement) ? Array.from(statsRunesTreeElement.children) : null
-        const statsRunesRows = !isNull(statsRunesTreeRowsElement) ? statsRunesTreeRowsElement.map((statsRunesRowElement) => {getstatsRunesRow(statsRunesRowElement)}) : null
+        const statsrunesRows = !isNull(statsRunesTreeRowsElement) ? statsRunesTreeRowsElement.map((elem) => getstatsRunesRow(elem)) : null
+
+        return !isNull(statsrunesRows) ? {statsrunesRows} : null
+
     }
     // const getStatsRunesRow = (selector:string) : (typeGuards.IStatsRunesRow | void) => {};
     return null
