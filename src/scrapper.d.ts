@@ -27,9 +27,8 @@ export interface IRune {
 export interface IStatsRune {
     name: string,
     imageUrl: string,
-    description: string,
+    shortDesc: string,
     isActive: boolean,
-    id: number,
 }
 
 export interface IKeystonesRow {
@@ -39,7 +38,7 @@ export interface IRunesRow {
     runes: IRune[],
 }
 export interface IStatsRunesRow {
-    runes: IStatsRune[],
+    statsRunes: IStatsRune[],
 }
 export interface IPrimaryRunesTree {
     treeImage: string, //1
@@ -53,7 +52,7 @@ export interface ISecondaryRunesTree {
     runesRows: IRunesRow[], //3
 }
 export interface IStatsRunesTree {
-    runesRows: IStatsRunesRow[] //3
+    statsrunesRows: IStatsRunesRow[] //3
 }
 
 export interface ITotalRunes {
@@ -64,15 +63,20 @@ export interface ITotalRunes {
 
 //build
 export interface IItem {
-    imageUrl: string,
+    id: number,
     name: string,
     description: string,
-    id: number,
+    active: boolean,
+    categories: string[],
+    maxStacks: number,
+    price: number,
+    priceTotal: number,
+    iconPath: string,
+    url: string,
 }
 export interface IStep {
-    itemNumber: number,
+    stepNumber: number,
     stepName: string,
-    description: string,
     items: IItem[],
     isCore: boolean,
 }
