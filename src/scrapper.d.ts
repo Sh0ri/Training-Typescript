@@ -41,14 +41,12 @@ export interface IRunesRow {
 export interface IStatsRunesRow {
     runes: IStatsRune[],
 }
-export interface IPrimaryRunesTree {
-    mainPerk: IMainPerk,
-    keyStoneRow: IKeystonesRow, //1
-    runesRows: IRunesRow[], //3
-}
 export interface ISecondaryRunesTree {
     mainPerk: IMainPerk,
     runesRows: IRunesRow[], //3
+}
+export interface IPrimaryRunesTree extends ISecondaryRunesTree {
+    keyStoneRow: IKeystonesRow, //1
 }
 export interface IStatsRunesTree {
     runesRows: IStatsRunesRow[] //3

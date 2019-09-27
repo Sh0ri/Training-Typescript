@@ -1,10 +1,10 @@
 "use strict"
 
 // imports
-import * as typeGuards from "./scrapper"
+import {IRune, IStatsRune, IKeystonesRow, IRunesRow, IStatsRunesRow, IPrimaryRunesTree, ISecondaryRunesTree, IStatsRunesTree, ITotalRunes, IMainPerk, IItem, IStep, IBuild} from "./scrapper"
 
 // tslint:disable-next-line: no-any
-const getRunesForOpponent = (runesDataStr: string): typeGuards.IRune|null => {
+const getRunesForOpponent = (runesDataStr: string): IRune|null => {
     // consts
     const isNull = (elem: any): elem is null => (null === elem)
 
@@ -13,45 +13,45 @@ const getRunesForOpponent = (runesDataStr: string): typeGuards.IRune|null => {
     const PRIMARY_TREE_SELECTOR = " > div:nth-child(1) > div > div"
     const SECONDARY_TREE_SELECTOR = " > div:nth-child(2) > div.flex-center > div"
 
-    const getKeystonesRow = (runesRowElement: Element): (typeGuards.IKeystonesRow) => {
+    const getKeystonesRow = (runesRowElement: Element): IKeystonesRow => {
         const runesArray = Array.from(runesRowElement.children).map((elem) => getRune(elem))
-        const runesNotNull: typeGuards.IRune[] = runesArray.filter((x): x is typeGuards.IRune => x !== null)
-        const result: typeGuards.IKeystonesRow = {keystones: runesNotNull}
+        const runesNotNull = runesArray.filter((x): x is IRune => x !== null)
+        const result = {keystones: runesNotNull}
         return result
     }
-    const getRunesRow = (runesRowElement: Element): (typeGuards.IRunesRow) => {
+    const getRunesRow = (runesRowElement: Element): IRunesRow => {
         const runesArray = Array.from(runesRowElement.children).map((elem) => getRune(elem))
-        const runesNotNull: typeGuards.IRune[] = runesArray.filter((x): x is typeGuards.IRune => x !== null)
-        const result: typeGuards.IRunesRow = {runes: runesNotNull}
+        const runesNotNull = runesArray.filter((x): x is IRune => x !== null)
+        const result = {runes: runesNotNull}
         return result
     }
-    const getRune = (elem: Element): (typeGuards.IRune | null) => {
+    const getRune = (elem: Element): (IRune | null) => {
 
         const isActiveElement = elem.getAttribute("class")
         const isActive = !isNull(isActiveElement) ? isActiveElement === "perk perk-active" : false
         const imgElement = elem.children[0]
         const idElement = !isNull(imgElement) ? imgElement.getAttribute("alt") : null
-        const id: number = !isNull(idElement) ? +idElement : 0
-        const allRunesData: typeGuards.IRune[] = JSON.parse(runesDataStr)
+        const id = !isNull(idElement) ? +idElement : 0
+        const allRunesData: IRune[] = JSON.parse(runesDataStr)
         const runeData = allRunesData.find((r) => r.id === id)
         const completeRune = (typeof runeData !== "undefined") ? {...runeData, isActive} : null
         return completeRune
     }
-    const getMainPerk = (mainPerkElement: Element): typeGuards.IMainPerk => {
+    const getMainPerk = (mainPerkElement: Element): IMainPerk => {
         // img
         const imgSrcElement = mainPerkElement.children[0].getAttribute("src")
-        const imgSrc: string = !isNull(imgSrcElement) ? imgSrcElement : ""
+        const imgSrc = !isNull(imgSrcElement) ? imgSrcElement : ""
         // id
         const idElement = mainPerkElement.children[0].getAttribute("alt")
-        const id: number = !isNull(idElement) ? +idElement : 0
+        const id = !isNull(idElement) ? +idElement : 0
         // name
         const nameElement = mainPerkElement.children[1].children[0].textContent
-        const name: string = !isNull(nameElement) ? nameElement : ""
+        const name = !isNull(nameElement) ? nameElement : ""
         // shortDesc
         const shortDescElement = mainPerkElement.children[1].children[1].textContent
-        const shortDesc: string = !isNull(shortDescElement) ? shortDescElement : ""
+        const shortDesc = !isNull(shortDescElement) ? shortDescElement : ""
 
-        const result: typeGuards.IMainPerk = {
+        const result = {
             id,
             name,
             imgSrc,
@@ -59,11 +59,11 @@ const getRunesForOpponent = (runesDataStr: string): typeGuards.IRune|null => {
         }
         return result
     }
-    const getRunesTree = (mainPerk: typeGuards.IMainPerk, keystonesRow: typeGuards.IKeystonesRow|null, runesRows: typeGuards.IRunesRow[]): (typeGuards.IPrimaryRunesTree | typeGuards.ISecondaryRunesTree) => {
+    const getRunesTree = (mainPerk: IMainPerk, keystonesRow: IKeystonesRow|null, runesRows: IRunesRow[]): (IPrimaryRunesTree | ISecondaryRunesTree) => {
         const result = !isNull(keystonesRow) ? {mainPerk, keystonesRow, runesRows} : {mainPerk, runesRows}
         return result
     }
-    const getTree = (selector: string): (typeGuards.IPrimaryRunesTree | typeGuards.ISecondaryRunesTree | null) => {
+    const getTree = (selector: string): (IPrimaryRunesTree | ISecondaryRunesTree | null) => {
         const TreeElement = document.querySelector(`${RUNES_TREE_SELECTOR}${selector}`)
         const TreeRowsElement = !isNull(TreeElement) ? Array.from(TreeElement.children) : null
 
@@ -73,11 +73,11 @@ const getRunesForOpponent = (runesDataStr: string): typeGuards.IRune|null => {
 
         return !isNull(mainPerk) ? getRunesTree(mainPerk, keystonesRow, RunesRow) : null
     }
-    const getRunesRows = (treeRowsElement: (Element[] | null)): typeGuards.IRunesRow[] => {
+    const getRunesRows = (treeRowsElement: (Element[] | null)): IRunesRow[] => {
         const firstRow = !isNull(treeRowsElement) ? getRunesRow(treeRowsElement[2]) : null
         const secondRow = !isNull(treeRowsElement) ? getRunesRow(treeRowsElement[3]) : null
         const thirdRow = !isNull(treeRowsElement) ? getRunesRow(treeRowsElement[4]) : null
-        return [firstRow, secondRow, thirdRow].filter((x): x is typeGuards.IRunesRow => x !== null)
+        return [firstRow, secondRow, thirdRow].filter((x): x is IRunesRow => x !== null)
     }
 
     const primaryTree = getTree(PRIMARY_TREE_SELECTOR)

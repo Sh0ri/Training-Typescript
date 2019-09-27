@@ -20,11 +20,11 @@ export const getAllCardsInfo = (): IChampionCardsList => {
         const CURRENT_GAME_ROLE_SELECTOR = "div.cardBody > div.box.rolesBox.canExpand > div.imgFlex > div.txt > div.title"
         const MAIN_ROLE_SELECTOR = "div.cardBody > div.box.rolesBox.canExpand > div.imgFlex > div.txt > div.content > div > span"
 
-        let championWinrate: number = 0
-        let championGamesNb: number = 0
+        let championWinrate = 0
+        let championGamesNb = 0
 
         // team
-        const team: string = teamColor
+        const team = teamColor
 
         // pseudo
         const pseudoElement = elem.querySelector(PSEUDO_SELECTOR)
@@ -57,20 +57,20 @@ export const getAllCardsInfo = (): IChampionCardsList => {
 
         // totalWinrate
         const totalWinrateElement = elem.querySelector(TOTAL_WINRATE_SELECTOR)
-        const totalWinrate: number = (isElement(totalWinrateElement) && !isNull(totalWinrateElement.textContent)) ? +totalWinrateElement.textContent.replace(/\D/g, "").trim() : 0
+        const totalWinrate = (isElement(totalWinrateElement) && !isNull(totalWinrateElement.textContent)) ? +totalWinrateElement.textContent.replace(/\D/g, "").trim() : 0
         console.log(totalWinrate)
 
         // currentGameRole
         const currentGameRoleElement = elem.querySelector(CURRENT_GAME_ROLE_SELECTOR)
-        const currentGameRole: string = (isElement(currentGameRoleElement) && !isNull(currentGameRoleElement.textContent)) ? currentGameRoleElement.textContent.replace(/(\r\n|\n|\r)/gm, "").trim().split(" ")[0] : ""
+        const currentGameRole = (isElement(currentGameRoleElement) && !isNull(currentGameRoleElement.textContent)) ? currentGameRoleElement.textContent.replace(/(\r\n|\n|\r)/gm, "").trim().split(" ")[0] : ""
         console.log(currentGameRole)
 
         // mainRole
         const mainRoleElement = elem.querySelector(MAIN_ROLE_SELECTOR)
-        const mainRole: string = (isElement(mainRoleElement) && !isNull(mainRoleElement.textContent)) ? mainRoleElement.textContent.replace(/(\r\n|\n|\r)/gm, "").trim() : ""
+        const mainRole = (isElement(mainRoleElement) && !isNull(mainRoleElement.textContent)) ? mainRoleElement.textContent.replace(/(\r\n|\n|\r)/gm, "").trim() : ""
         console.log(mainRole)
 
-        const result: IChampionCard = {
+        const result = {
             team,
             pseudo,
             championName,
@@ -101,7 +101,7 @@ export const getAllCardsInfo = (): IChampionCardsList => {
 }
 
 export const getAlliedTeamColor = (pseudo: string, everybody: IChampionCardsList): string => {
-    const perso: IChampionCard|undefined = everybody.find((card) => {
+    const perso = everybody.find((card) => {
         return card.pseudo === pseudo
     })
     return (perso !== undefined) ? perso.team : ""
