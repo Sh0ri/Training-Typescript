@@ -33,5 +33,5 @@ const getCompositions = async (porofessorUrl: string, pseudo: string) => {
     return ""
 }
 // Trymario Selmoh
-getCompositions("https://porofessor.gg/live/euw/", "Enhhtaï")
+getCompositions("https://porofessor.gg/live/euw/", "RabbitHunterDan2")
 
