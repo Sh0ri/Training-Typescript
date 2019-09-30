@@ -108,7 +108,6 @@ const getRunesForOpponent = (runesDataStr: string, statsRunesDataStr: string): t
         return result
     }
     const getstatsRunesTree = (): (typeGuards.IStatsRunesTree | null) => {
-        // hello
         const statsRunesTreeElement = document.querySelector(`${RUNES_TREE_SELECTOR}${STATS_RUNES_SELECTOR}`)
         const statsRunesTreeRowsElement = !isNull(statsRunesTreeElement) ? Array.from(statsRunesTreeElement.children) : null
         const statsrunesRows = !isNull(statsRunesTreeRowsElement) ? statsRunesTreeRowsElement.map((elem) => getstatsRunesRow(elem)) : null
