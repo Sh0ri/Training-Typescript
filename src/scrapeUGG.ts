@@ -4,7 +4,7 @@
 import {IRune, IStatsRune, IKeystonesRow, IRunesRow, IStatsRunesRow, IPrimaryRunesTree, ISecondaryRunesTree, IStatsRunesTree, ITotalRunes, IMainPerk, IItem, IStep, IBuild} from "./scrapper"
 
 // tslint:disable-next-line: no-any
-const getRunesForOpponent = (runesDataStr: string, statsRunesDataStr: string): typeGuards.IRune|null => {
+const getRunesForOpponent = (runesDataStr: string, statsRunesDataStr: string): IRune|null => {
     // consts
     const isNull = (elem: any): elem is null => (null === elem)
 
@@ -88,7 +88,7 @@ const getRunesForOpponent = (runesDataStr: string, statsRunesDataStr: string): t
     // const runeTest = !isNull(elemTest) ? getRune( elemTest ) : null
     // stats runes
     const STATS_RUNES_SELECTOR = " > div:nth-child(2) > div.stat-shards-container"
-    const getStatsRune = (statsRunesElement: Element): (typeGuards.IStatsRune | null) => {
+    const getStatsRune = (statsRunesElement: Element): (IStatsRune | null) => {
         // isActive
         const isActiveElement = statsRunesElement.getAttribute("class")
         const isActive = !isNull(isActiveElement) ? isActiveElement === "shard shard-active" : false
@@ -96,18 +96,18 @@ const getRunesForOpponent = (runesDataStr: string, statsRunesDataStr: string): t
         const imgSrcElement = statsRunesElement.children[0].getAttribute("src")
         const imgSrc: string = !isNull(imgSrcElement) ? imgSrcElement : ""
         // statsRune
-        const allStatsRunesData: typeGuards.IStatsRune[] = JSON.parse(statsRunesDataStr)
+        const allStatsRunesData: IStatsRune[] = JSON.parse(statsRunesDataStr)
         const statsRuneData = allStatsRunesData.find((r) => r.imageUrl === imgSrc)
         const completeRune = (typeof statsRuneData !== "undefined") ? {...statsRuneData, isActive} : null
         return completeRune
     }
-    const getstatsRunesRow = (statsRunesRowElement: Element): (typeGuards.IStatsRunesRow) => {
+    const getstatsRunesRow = (statsRunesRowElement: Element): IStatsRunesRow => {
         const statsRunesArray = Array.from(statsRunesRowElement.children).map((elem) => getStatsRune(elem))
-        const statsRunesRowNotNull: typeGuards.IStatsRune[] = statsRunesArray.filter((x): x is typeGuards.IStatsRune => x !== null)
-        const result: typeGuards.IStatsRunesRow = {statsRunes: statsRunesRowNotNull}
+        const statsRunesRowNotNull: IStatsRune[] = statsRunesArray.filter((x): x is IStatsRune => x !== null)
+        const result: IStatsRunesRow = {statsRunes: statsRunesRowNotNull}
         return result
     }
-    const getstatsRunesTree = (): (typeGuards.IStatsRunesTree | null) => {
+    const getstatsRunesTree = (): (IStatsRunesTree | null) => {
         const statsRunesTreeElement = document.querySelector(`${RUNES_TREE_SELECTOR}${STATS_RUNES_SELECTOR}`)
         const statsRunesTreeRowsElement = !isNull(statsRunesTreeElement) ? Array.from(statsRunesTreeElement.children) : null
         const statsrunesRows = !isNull(statsRunesTreeRowsElement) ? statsRunesTreeRowsElement.map((elem) => getstatsRunesRow(elem)) : null
@@ -115,7 +115,8 @@ const getRunesForOpponent = (runesDataStr: string, statsRunesDataStr: string): t
         return !isNull(statsrunesRows) ? {statsrunesRows} : null
 
     }
-    // const getStatsRunesRow = (selector:string) : (typeGuards.IStatsRunesRow | void) => {};
+    const statsRunesTree = getstatsRunesTree()
+    console.log(`STATS RUNES TREE : ${JSON.stringify(statsRunesTree)}`)
     return null
 
 }
