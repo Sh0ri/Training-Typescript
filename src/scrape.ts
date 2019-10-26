@@ -5,6 +5,8 @@ import {getAllCardsInfo, getAlliedTeamColor} from "./scrapePorofessor"
 import runesData from "../static/riot-data/runes/runes.json"
 import statsRunesData from "../static/riot-data/runes/stats_runes.json"
 import getRunesForOpponent from "./scrapeUGG"
+import getUGGBuild from "./scrapeBuilds"
+import generateItems from "./link"
 
 const getCompositions = async (porofessorUrl: string, pseudo: string) => {
     const browser = await puppeteer.launch({ headless: false })
@@ -24,8 +26,12 @@ const getCompositions = async (porofessorUrl: string, pseudo: string) => {
         await page.goto("https://u.gg/lol/champions/shen/build")
         await page.click("#qcCmpButtons > button:nth-child(2)")
         await page.waitForSelector(UGG_LOAD_SELECTOR)
+
         const runes = await page.evaluate(getRunesForOpponent, JSON.stringify(runesData), JSON.stringify(statsRunesData))
-        console.log(runes)
+        const temporaryBuild = await page.evaluate(getUGGBuild)
+        console.log(temporaryBuild)
+
+        await generateItems(page, temporaryBuild)
 
     } catch (error) {
         console.log(error)
@@ -34,5 +40,5 @@ const getCompositions = async (porofessorUrl: string, pseudo: string) => {
     return ""
 }
 // Trymario Selmoh
-getCompositions("https://porofessor.gg/live/euw/", "DonGangBang")
+getCompositions("https://porofessor.gg/live/euw/", "Corobizar")
 

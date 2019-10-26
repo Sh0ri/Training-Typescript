@@ -75,17 +75,42 @@ export interface IItem {
     name: string,
     description: string,
     active: boolean,
+    inStore: boolean,
+    from: number[],
+    to: number[],
     categories: string[],
+    mapStringIdInclusions: string[],
     maxStacks: number,
+    modeNameInclusions: string[],
+    requiredChampion: string,
+    requiredAlly: string,
+    requiredBuffCurrencyName: string,
+    requiredBuffCurrencyCost: number,
+    specialRecipe: number,
+    isEnchantment: boolean,
     price: number,
     priceTotal: number,
     iconPath: string,
-    url: string,
+}
+export interface IPosition {
+    left: number,
+    top: number,
+    width: number,
+    height: number,
+}
+export interface ITemporaryStep {
+    stepNumber: number,
+    stepName: string,
+    itemsPositions: IPosition[],
+    isCore: boolean,
+}
+export interface ITemporaryBuild {
+    steps: ITemporaryStep[],
 }
 export interface IStep {
     stepNumber: number,
     stepName: string,
-    items: IItem[],
+    itemsPositions: IItem[],
     isCore: boolean,
 }
 export interface IBuild {
